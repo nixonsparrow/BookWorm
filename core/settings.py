@@ -19,15 +19,12 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Store sensitive data in dev_config.env file at /etc/books_config.env
-if os.path.exists('/etc/books_config.env'):
-    load_dotenv('/etc/books_config.env')
-# If you don't have books_config.env file yet, you may use default values for development
-else:
-    load_dotenv(BASE_DIR / 'dev_config.env')
+# Store sensitive data as an environment variable, for development there are some default unsafe variables
+if not os.getenv('SECRET_KEY'):
+    load_dotenv('dev_config.env')
 
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = True if os.getenv('DEBUG') == 'True' else False
+DEBUG = os.getenv('DEBUG')
 
 # localhost enabled by default, delete it and/or add more hosts in your config file (i.e. '["127.0.0.1","YOUR_SITE"]')
 ALLOWED_HOSTS = ['localhost']
