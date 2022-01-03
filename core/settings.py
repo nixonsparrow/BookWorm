@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
-import json
 import django_heroku
 from dotenv import load_dotenv
 from pathlib import Path
@@ -21,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Store sensitive data as an environment variable, for development there are some default unsafe variables
 if not os.getenv('SECRET_KEY'):
-    load_dotenv('dev_config.env')
+    load_dotenv('/etc/books_config.env')
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = (os.getenv('DEBUG') == 'True')
