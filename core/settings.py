@@ -12,27 +12,26 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 import json
+import django_heroku
 from dotenv import load_dotenv
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Store sensitive data in dev_config.env file at /etc/co
-if os.path.exists(BASE_DIR / '/etc/books_config.env'):
-    load_dotenv(BASE_DIR / '/etc/books_config.env')
-# If you don't have books_config.env file yet, you may use values for development
+# Store sensitive data in dev_config.env file at /etc/books_config.env
+if os.path.exists('/etc/books_config.env'):
+    load_dotenv('/etc/books_config.env')
+# If you don't have books_config.env file yet, you may use default values for development
 else:
     load_dotenv(BASE_DIR / 'dev_config.env')
 
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = os.getenv('DEBUG')
+DEBUG = True if os.getenv('DEBUG') == 'True' else False
 
 # localhost enabled by default, delete it and/or add more hosts in your config file (i.e. '["127.0.0.1","YOUR_SITE"]')
 ALLOWED_HOSTS = ['localhost']
 [ALLOWED_HOSTS.append(host) for host in json.loads(os.getenv('ALLOWED_HOSTS'))]
-
 
 # Application definition
 
@@ -76,20 +75,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'books',
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': 5432,
+        'CONN_MAX_AGE': 500,
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -105,10 +101,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -128,3 +120,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
