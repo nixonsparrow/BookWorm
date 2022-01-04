@@ -1,7 +1,7 @@
 from django.urls import path, include
-from books.views import BooksListView, SearchListView
+from books.views import BooksListView
 
 urlpatterns = [
     path('', BooksListView.as_view(), name='book-list'),
-    path('search/', SearchListView.as_view(), name='search'),
+    path('search/', BooksListView.as_view(template_name='books/search_results.html'), name='search'),
 ]
