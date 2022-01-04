@@ -1,0 +1,38 @@
+{% load static %}
+<html>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+
+    <body>
+            <form
+                    hx-post="{% url 'search' %}"
+                    hx-target="#search_results"
+                    hx-swap="outerHTML"
+                    hx-trigger="submit, input delay:500ms"
+                    id="search" name="search" class="mt-5 ml-5 d-flex align-content flex-wrap">
+                {% csrf_token %}
+                <div class="" style="width: 200px" align="center">
+                    <label for="title">Title:</label><br>
+                    <input type="text" name="title" id="title" class="form-" style="" placeholder="Search by title" value="{{ title_searched }}">
+                </div>
+                <div class="" style="width: 200px" align="center">
+                    <label for="author">Author:</label><br>
+                    <input type="text" name="author" id="author" class="" style="" placeholder="Search by author" value="{{ author_searched }}">
+                </div>
+                <div class="" style="width: 200px" align="center">
+                    <label for="language">Language:</label><br>
+                    <input type="text" name="language" id="language" class="" style="" placeholder="Search by language" value="{{ language_searched }}">
+                </div>
+
+                <input type="submit" style="visibility: hidden;">
+            </form>
+
+        {% include 'books/search_results.html' %}
+
+    <script type="text/javascript" src="{% static 'htmx.min.js' %}"></script>
+
+    </body>
+
+</html>

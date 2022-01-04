@@ -1,3 +1,8 @@
 from django.test import TestCase
+from books.models import Book
 
-# Create your tests here.
+
+class BookModelTestCase(TestCase):
+    def test_simple_creation(self):
+        book = Book.objects.create()
+        self.assertIsNotNone(book)

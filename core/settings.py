@@ -25,7 +25,6 @@ if not os.getenv('SECRET_KEY'):
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = (os.getenv('DEBUG') == 'True')
 
-# localhost enabled by default, delete it and/or add more hosts in your config file (i.e. '["127.0.0.1","YOUR_SITE"]')
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
 
 # Application definition
@@ -106,17 +105,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
