@@ -2,14 +2,14 @@ from django.shortcuts import render, reverse
 from django.views.generic.edit import FormMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from books.models import Book
-from books.forms import SearchForm
+from books.forms import GhostForm
 
 
 class BooksListView(ListView, FormMixin):
 
     model = Book
     context_object_name = 'books'
-    form_class = SearchForm
+    form_class = GhostForm
     template_name = 'books/book_list.html'
 
     def post(self, request, *args, **kwargs):
@@ -48,7 +48,7 @@ class BooksListView(ListView, FormMixin):
 class BookUpdateView(UpdateView):
     model = Book
     fields = '__all__'
-    extra_context = {'delete_button': True}
+    extra_context = {'update_form': True}
 
     def get_success_url(self):
         return reverse('book-list')
@@ -64,3 +64,7 @@ class BookCreateView(CreateView):
 
 class BookDeleteView(DeleteView):
     model = Book
+    context_object_name = 'book'
+
+    def get_success_url(self):
+        return reverse('book-list')

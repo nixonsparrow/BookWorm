@@ -4,21 +4,31 @@
 {% block content %}
         <form method="POST">
             {% csrf_token %}
-            <fieldset class="">
-                <legend class="border-bottom mb-4">Book details update form</legend>
+            <fieldset class="border-bottom mb-2">
+                <legend class="border-bottom mb-2">Book form</legend>
                     {{ form|crispy }}
             </fieldset>
             <div class="d-flex">
-                <button class="" type="submit">Update</button>
-                <button class="" type="reset">Reset</button>
-                <a href="{% url 'book-list' %}">
-                    <button class="" type="button">Cancel</button>
-                </a>
-                {% if delete_button %}
+                <button class="form-button submit-button" type="submit">
+                    {% if update_form %}Update{% else %}Add{% endif %}
+                </button>
+
+                <button class="form-button reset-button" type="reset"
+                        onclick="return confirm('You are going to reset form values. Proceed?');">
+                    Reset
+                </button>
+
+                {% if update_form %}
                 <a href="{% url 'book-delete' book.id %}">
-                    <button class="" type="button">Delete</button>
+                    <button class="form-button delete-button" type="button">Delete</button>
                 </a>
                 {% endif %}
+
+                <a href="{% url 'book-list' %}">
+                    <button class="form-button cancel-button" type="button">
+                        Cancel
+                    </button>
+                </a>
             </div>
         </form>
 {% endblock content %}

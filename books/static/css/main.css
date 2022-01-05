@@ -49,3 +49,28 @@ a:link, a:visited, a:hover, a:active {
 .hidden-button {
     visibility: hidden;
 }
+
+.form-button {
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.submit-button {
+    margin-left: 2rem;
+    background-color: green;
+}
+
+.reset-button {
+    margin-left: 2rem;
+    background-color: pink;
+}
+
+.delete-button {
+    margin-left: 2rem;
+    background-color: red;
+}
+
+.cancel-button {
+    margin-left: 2rem;
+    background-color: lightgrey;
+}
