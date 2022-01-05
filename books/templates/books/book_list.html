@@ -1,15 +1,7 @@
+{% extends 'books/base.html' %}
 {% load static %}
-<html>
+{% block content %}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-
-    <!-- main CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-
-    <body>
         <form autocomplete="off"
               class="ml-3 d-flex align-content flex-wrap"
               id="search" name="search"
@@ -57,7 +49,4 @@
         {% include 'books/search_results.html' %}
 
     <script type="text/javascript" src="{% static 'htmx.min.js' %}"></script>
-
-    </body>
-
-</html>
+{% endblock content %}

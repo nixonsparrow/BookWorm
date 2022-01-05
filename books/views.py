@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.views.generic.edit import FormMixin
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from books.models import Book
 from books.forms import SearchForm
 
@@ -15,9 +15,9 @@ class BooksListView(ListView, FormMixin):
     def post(self, request, *args, **kwargs):
         data = self.get_form_kwargs()['data']
 
-        title = data['title']
-        author = data['author']
-        language = data['language']
+        title = data['title'].replace(' ', '')
+        author = data['author'].replace(' ', '')
+        language = data['language'].replace(' ', '')
         date_from = data['date-from']
         date_to = data['date-to']
 
@@ -43,3 +43,24 @@ class BooksListView(ListView, FormMixin):
             'date_from_searched': date_from,
             'date_to_searched': date_to,
             })
+
+
+class BookUpdateView(UpdateView):
+    model = Book
+    fields = '__all__'
+    extra_context = {'delete_button': True}
+
+    def get_success_url(self):
+        return reverse('book-list')
+
+
+class BookCreateView(CreateView):
+    model = Book
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('book-list')
+
+
+class BookDeleteView(DeleteView):
+    model = Book
