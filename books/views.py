@@ -15,9 +15,19 @@ class BooksListView(ListView, FormMixin):
     def post(self, request, *args, **kwargs):
         data = self.get_form_kwargs()['data']
 
-        title = data['title'].replace(' ', '')
-        author = data['author'].replace(' ', '')
-        language = data['language'].replace(' ', '')
+        char_field_values = {'title', 'author', 'language'}
+
+        # clean front white spaces if any
+        for char_field, value in data.items():
+            if char_field in char_field_values:
+                while value[0] == ' ':
+                    data[value] = value.replace(' ', '', 1)
+                while value[-1] == ' ':
+                    data[value] = value[:-1]
+
+        title = data['title']
+        author = data['author']
+        language = data['language']
         date_from = data['date-from']
         date_to = data['date-to']
 
@@ -34,6 +44,8 @@ class BooksListView(ListView, FormMixin):
                     books = books.exclude(id=book.id)
                 elif date_to and book.pub_date > date_to:
                     books = books.exclude(id=book.id)
+
+        print(data)
 
         return render(request, self.template_name, context={
             'books': books,
