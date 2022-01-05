@@ -2,31 +2,35 @@
 
 <div id="search_results" align="center" class="col-md-12 d-flex align-content flex-wrap">
 {% for book in books %}
+    <a href="#">
     <div class="mt-3 ml-2 d-flex book-container">
         <div>
-{% if book.cover_link %}
-    <img height="150" src="{{ book.cover_link }}" style="border: 1px solid;">
-{% else %}
-    <img height="150" width="100" src="{% static 'images/book_404.jpg' %}" style="border: 1px solid; opacity: 0.5;">
-{% endif %}
+        {% if book.cover_link %}
+            <img height="150" width="100" src="{{ book.cover_link }}" class="book-picture">
+        {% else %}
+            <img height="150" width="100" src="{% static 'images/book_404.jpg' %}" class="semitransparent">
+        {% endif %}
         </div>
-        <div class="ml-2" style="font-size: 14px; width: 100%;">
+        <div class="ml-2 book-details">
             <b>{{ book.title }}</b>
-            <ul style="list-style-type: none; margin: 0; padding: 0;">
+            <ul class="clean-list">
                 <li>{{ book.author }}</li>
-                <li>Language: {{ book.language }}</li>
-                <li>Date: {{ book.pub_date }}</li>
-                <li>ISBN: {% if book.isbn %}{{ book.isbn }}{% else %}-- {% endif %}</li>
-                <li>Pages: {% if book.page_count %}{{ book.page_count }}{% else %}-- {% endif %}</li>
+                <li>Language: {% if book.language %}{{ book.language }}{% else %}--{% endif %}</li>
+                <li>Date: {% if book.pub_date %}{{ book.pub_date }}{% else %}--{% endif %}</li>
+                <li>Pages: {% if book.page_count %}{{ book.page_count }}{% else %}--{% endif %}</li>
+                <li>ISBN: {% if book.isbn %}{{ book.isbn }}{% else %}--{% endif %}</li>
             </ul>
         </div>
     </div>
-
-{% empty %}
-    <div class="ml-5 mt-3 d-flex" style="width: 300px"><div><img height="150"
-                                                          src="{% static 'images/book_404.jpg' %}"
-                                                          style="border: 1px solid;"></div>
-
-        <div>There is no book in the database with such search criteria.</div></div>
-{% endfor %}
+    </a>
+    {% empty %}
+        <div class="ml-5 mt-3 d-flex book-container">
+            <div>
+                <img height="150" class="book-picture" src="{% static 'images/book_404.jpg' %}">
+            </div>
+            <div>
+                There is no book in the database with such search criteria.
+            </div>
+        </div>
+    {% endfor %}
 </div>

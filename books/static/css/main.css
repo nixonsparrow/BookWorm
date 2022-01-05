@@ -1,8 +1,51 @@
 body {
-    background-color: darkgrey
+    background-color: darkgrey;
+    margin-top: 5rem;
 }
 
 .book-container {
     width: 300px;
+    height: 150px;
     background-color: lightgrey
+}
+
+.book-details {
+    font-size: 14px;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.book-picture {
+    border: 1px solid;
+}
+
+a {
+    text-decoration: 0;
+    color: black;
+}
+
+a:link, a:visited, a:hover, a:active {
+    text-decoration: 0;
+    color: black;
+}
+
+
+.semitransparent {
+    border: 1px solid;
+    opacity: 0.5;
+}
+
+.search-form {
+    width: 200px;
+    text-align: center;
+}
+
+.clean-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.hidden-button {
+    visibility: hidden;
 }

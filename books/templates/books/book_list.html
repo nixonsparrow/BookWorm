@@ -10,33 +10,49 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 
     <body>
-            <form autocomplete="off"
-                  class="mt-5 ml-5 d-flex align-content flex-wrap"
-                  id="search" name="search"
-                  hx-post="{% url 'search' %}"
-                  hx-target="#search_results"
-                  hx-swap="outerHTML"
-                  hx-trigger="submit, input delay:500ms"
-            >
-                {% csrf_token %}
-                <div class="" style="width: 200px" align="center">
-                    <label for="title">Title:</label><br>
-                    <input type="text" name="title" id="title"
-                           placeholder="Search by title" value="{{ title_searched }}">
-                </div>
-                <div class="" style="width: 200px" align="center">
-                    <label for="author">Author:</label><br>
-                    <input type="text" name="author" id="author"
-                           placeholder="Search by author" value="{{ author_searched }}">
-                </div>
-                <div class="" style="width: 200px" align="center">
-                    <label for="language">Language:</label><br>
-                    <input type="text" name="language" id="language"
-                           placeholder="Search by language" value="{{ language_searched }}">
+        <form autocomplete="off"
+              class="ml-3 d-flex align-content flex-wrap"
+              id="search" name="search"
+              hx-post="{% url 'search' %}"
+              hx-target="#search_results"
+              hx-swap="outerHTML"
+              hx-trigger="submit, input delay:500ms"
+        >
+            {% csrf_token %}
+            <div class="search-form">
+                <label for="title">Title:</label><br>
+                <input type="text" name="title" id="title"
+                       placeholder="Search by title" value="{{ title_searched }}">
+            </div>
+
+            <div class="search-form">
+                <label for="author">Author:</label><br>
+                <input type="text" name="author" id="author"
+                       placeholder="Search by author" value="{{ author_searched }}">
+            </div>
+
+            <div class="search-form">
+                <label for="language">Language:</label><br>
+                <input type="text" name="language" id="language"
+                       placeholder="Search by language" value="{{ language_searched }}">
+            </div>
+
+            <fieldset class="d-flex">
+                <div class="search-form">
+                    <label for="language">Date From:</label><br>
+                    <input type="date" name="date-from" id="date-from"
+                           value="{{ date_from_searched }}">
                 </div>
 
-                <input type="submit" style="visibility: hidden;">
-            </form>
+                <div class="search-form">
+                    <label for="language">Date To:</label><br>
+                    <input type="date" name="date-to" id="date-to"
+                           value="{{ date_to_searched }}">
+                </div>
+            </fieldset>
+
+            <input type="submit" class="hidden-button">
+        </form>
 
         {% include 'books/search_results.html' %}
 

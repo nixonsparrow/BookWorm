@@ -10,7 +10,7 @@ class Book(models.Model):
     cover_link = models.CharField('Link to the cover', default='', max_length=150, null=True, blank=True)
     language = models.CharField('Language', default='', max_length=100, null=True, blank=True)
 
-    pub_date = models.CharField('Publication Date', default='', max_length=100, null=True, blank=True)
+    pub_date = models.DateField('Publication Date', default=None, null=True, blank=True)
 
     isbn = models.CharField('ISBN', max_length=13, default='', null=True, blank=True)
     isbn_10 = models.CharField('ISBN 10', max_length=10, default='', null=True, blank=True)
