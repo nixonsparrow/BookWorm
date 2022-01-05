@@ -20,10 +20,11 @@ class BooksListView(ListView, FormMixin):
         # clean front white spaces if any
         for char_field, value in data.items():
             if char_field in char_field_values:
-                while value[0] == ' ':
-                    data[value] = value.replace(' ', '', 1)
-                while value[-1] == ' ':
-                    data[value] = value[:-1]
+                if value:
+                    while value[0] == ' ':
+                        data[value] = value.replace(' ', '', 1)
+                    while value[-1] == ' ':
+                        data[value] = value[:-1]
 
         title = data['title']
         author = data['author']
