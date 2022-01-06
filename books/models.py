@@ -16,7 +16,7 @@ class Book(models.Model):
     title = models.CharField('Title', max_length=100, default='', null=False, blank=False)
     author = models.CharField('Author', max_length=100, default='', null=True, blank=True)
     cover_link = models.CharField('Link to the cover', default='', max_length=150, null=True, blank=True)
-    language = models.CharField('Language', default='', max_length=10, null=True, blank=True,
+    language = models.CharField('Language', default=LANGUAGES[0], max_length=10, null=False, blank=False,
                                 choices=LANGUAGES)
 
     pub_date = models.DateField('Publication Date', default=None, null=True, blank=True)

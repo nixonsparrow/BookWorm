@@ -25,8 +25,16 @@
 
             <div class="search-form">
                 <label for="language">Language:</label><br>
-                <input type="text" name="language" id="language"
-                       placeholder="Search by language" value="{{ language_searched }}">
+                <select id="language" name="language" style="height">
+                        <option name="no_language" value="">
+                            ---------
+                        </option>
+                    {% for language in languages %}
+                        <option name="{{ language.0 }}" value="{{ language.0 }}">
+                            {{ language.1 }}
+                        </option>
+                    {% endfor %}
+                </select>
             </div>
 
             <fieldset class="d-flex">

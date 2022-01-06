@@ -13,6 +13,7 @@ from django.test.utils import override_settings
 from books.models import Book
 
 
+# @override_settings(DEBUG=True)
 class BookListTestCase(StaticLiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -24,6 +25,10 @@ class BookListTestCase(StaticLiveServerTestCase):
 
     def tearDown(self):
         self.browser.quit()
+
+    def test_if_title_is_book_worm(self):
+        self.browser.get(self.live_server_url)
+        WebDriverWait(self.browser, 5).until(cond.title_contains('Book Worm'))
 
     def test_can_see_book_list(self):
         self.browser.get(self.live_server_url)

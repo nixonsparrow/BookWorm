@@ -1,3 +1,4 @@
+('--', 'No Language Specified')
 ('pl', 'Polish')
 ('en', 'English')
 ('af', 'Afrikaans')

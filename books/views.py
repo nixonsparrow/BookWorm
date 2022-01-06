@@ -11,6 +11,7 @@ class BooksListView(ListView, FormMixin):
     context_object_name = 'books'
     form_class = BookForm
     template_name = 'books/book_list.html'
+    extra_context = {'languages': Book.LANGUAGES}
 
     def post(self, request, *args, **kwargs):
         data = self.get_form_kwargs()['data']
@@ -22,7 +23,7 @@ class BooksListView(ListView, FormMixin):
         date_to = data['date-to']
 
         print(data)
-        print(author)
+        print(language)
 
         books = Book.objects.filter(
                 title__icontains=title,
@@ -44,7 +45,7 @@ class BooksListView(ListView, FormMixin):
             'author_searched': author,
             'language_searched': language,
             'date_from_searched': date_from,
-            'date_to_searched': date_to,
+            'date_to_searched': date_to
             })
 
 
