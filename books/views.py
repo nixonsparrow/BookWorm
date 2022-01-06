@@ -2,35 +2,27 @@ from django.shortcuts import render, reverse
 from django.views.generic.edit import FormMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from books.models import Book
-from books.forms import GhostForm
+from books.forms import BookForm
 
 
 class BooksListView(ListView, FormMixin):
 
     model = Book
     context_object_name = 'books'
-    form_class = GhostForm
+    form_class = BookForm
     template_name = 'books/book_list.html'
 
     def post(self, request, *args, **kwargs):
         data = self.get_form_kwargs()['data']
 
-        char_field_values = {'title', 'author', 'language'}
-
-        # clean front white spaces if any
-        for char_field, value in data.items():
-            if char_field in char_field_values:
-                if value:
-                    while value[0] == ' ':
-                        data[value] = value.replace(' ', '', 1)
-                    while value[-1] == ' ':
-                        data[value] = value[:-1]
-
-        title = data['title']
-        author = data['author']
-        language = data['language']
+        title = data['title'].strip()
+        author = data['author'].strip()
+        language = data['language'].strip()
         date_from = data['date-from']
         date_to = data['date-to']
+
+        print(data)
+        print(author)
 
         books = Book.objects.filter(
                 title__icontains=title,
@@ -46,8 +38,6 @@ class BooksListView(ListView, FormMixin):
                 elif date_to and book.pub_date > date_to:
                     books = books.exclude(id=book.id)
 
-        print(data)
-
         return render(request, self.template_name, context={
             'books': books,
             'title_searched': title,
@@ -60,7 +50,7 @@ class BooksListView(ListView, FormMixin):
 
 class BookUpdateView(UpdateView):
     model = Book
-    fields = '__all__'
+    form_class = BookForm
     extra_context = {'update_form': True}
 
     def get_success_url(self):
@@ -69,7 +59,7 @@ class BookUpdateView(UpdateView):
 
 class BookCreateView(CreateView):
     model = Book
-    fields = '__all__'
+    form_class = BookForm
 
     def get_success_url(self):
         return reverse('book-list')

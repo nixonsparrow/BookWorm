@@ -25,7 +25,8 @@ if not os.getenv('SECRET_KEY'):
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = (os.getenv('DEBUG') == 'True')
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
+# To add more hosts separate then with comma in environment variable
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
 # Application definition
 
