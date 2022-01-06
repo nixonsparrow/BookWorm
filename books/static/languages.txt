@@ -1,4 +1,4 @@
-('--', 'No Language Specified')
+('--', 'Not specified')
 ('pl', 'Polish')
 ('en', 'English')
 ('af', 'Afrikaans')

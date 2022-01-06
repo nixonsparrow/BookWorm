@@ -1,3 +1,4 @@
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, reverse
 from django.views.generic.edit import FormMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -72,3 +73,7 @@ class BookDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse('book-list')
+
+
+def error_404_handler(request, exception):
+    return HttpResponseNotFound(render(request, 'books/error_404.html'))
