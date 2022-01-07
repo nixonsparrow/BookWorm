@@ -4,7 +4,7 @@
     <a href="{% url 'book-update' book.id %}">
 {% endif %}
 
-    <div class="mt-3 ml-2 d-flex book-container">
+    <div class="mt-3 ml-2 d-flex book-container" id="book_{{ book.id }}">
 
         <div>
         {% if book.cover_link %}
@@ -17,29 +17,29 @@
         <div class="ml-2 book-details">
             <b>{{ book.title }}</b>
             <ul class="clean-list">
-                <li>
+                <li id="book_{{ book.id }}_author">
                     {{ book.author }}
                 </li>
 
-                <li>Language:
-                    {% if book.get_full_language %}
+                <li id="book_{{ book.id }}_language">Language:
+                    {% if book.language %}
                         {{ book.get_full_language }}
                     {% else %}--{% endif %}
                 </li>
 
-                <li>Date:
+                <li id="book_{{ book.id }}_date">Date:
                     {% if book.pub_date %}
                         {{ book.pub_date }}
                     {% else %}--{% endif %}
                 </li>
 
-                <li>Pages:
+                <li id="book_{{ book.id }}_page_count">Pages:
                     {% if book.page_count %}
                         {{ book.page_count }}
                     {% else %}--{% endif %}
                 </li>
 
-                <li>ISBN:
+                <li id="book_{{ book.id }}_isbn">ISBN:
                     {% if book.isbn %}
                         {{ book.isbn }}
                     {% else %}--{% endif %}

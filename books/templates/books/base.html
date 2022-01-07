@@ -1,7 +1,7 @@
 {% load static %}
 <html>
     <title>
-        Book Worm
+        Book Worm{% if extra_title %} | {{ extra_title }}{% endif %}
     </title>
 
     <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}"/>

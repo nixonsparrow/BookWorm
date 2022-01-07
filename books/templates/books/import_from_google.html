@@ -1,0 +1,46 @@
+{% extends 'books/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+        <form autocomplete="off"
+              class="ml-3 d-flex align-content flex-wrap"
+              id="google_search" name="google_search"
+              method="post"
+        >
+            {% csrf_token %}
+
+            {{ form|crispy }}
+
+            <input type="submit" class="hidden-button">
+        </form>
+
+    {% for book in google_search_results %}
+
+        <form method="get" action="{% url 'book-create' %}">
+            {% csrf_token %}
+            {% include 'books/book_segment.html' %}
+            <input type="hidden" name="author" value="{{ book.author }}">
+            <input type="hidden" name="title" value="{{ book.title }}">
+            <input type="hidden" name="cover_link" value="{{ book.cover_link }}">
+            <input type="hidden" name="language" value="{{ book.language }}">
+            <input type="hidden" name="pub_date" value="{{ book.pub_date }}">
+            <input type="hidden" name="isbn" value="{{ book.isbn }}">
+            <input type="hidden" name="isbn_10" value="{{ book.isbn_10 }}">
+            <input type="hidden" name="page_count" value="{{ book.page_count }}">
+            <button type="submit" class="mt-2 form-button submit-button">Quick Add</button>
+        </form>
+
+    {% empty %}
+        <div class="ml-5 mt-3 d-flex book-container">
+            <div>
+                There is no book in the database with such search criteria.
+            </div>
+        </div>
+    {% endfor %}
+
+        <div id="google_search_results">
+            {{ google_search_results }}
+        </div>
+
+{% endblock content %}

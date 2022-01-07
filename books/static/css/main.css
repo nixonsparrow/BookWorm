@@ -74,3 +74,8 @@ a:link, a:visited, a:hover, a:active {
     margin-left: 2rem;
     background-color: lightgrey;
 }
+
+.image-button {
+    height: 50px;
+    border-radius: 25px;
+}

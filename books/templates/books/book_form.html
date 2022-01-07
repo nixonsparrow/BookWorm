@@ -9,23 +9,23 @@
                     {{ form|crispy }}
             </fieldset>
             <div class="d-flex">
-                <button class="form-button submit-button" type="submit">
+                <button class="form-button submit-button" type="submit" id="submit-button">
                     {% if update_form %}Update{% else %}Add{% endif %}
                 </button>
 
-                <button class="form-button reset-button" type="reset"
+                <button class="form-button reset-button" type="reset" id="reset-button"
                         onclick="return confirm('You are going to reset form values. Proceed?');">
                     Reset
                 </button>
 
                 {% if update_form %}
                 <a href="{% url 'book-delete' book.id %}">
-                    <button class="form-button delete-button" type="button">Delete</button>
+                    <button class="form-button delete-button" type="button" id="delete-button">Delete</button>
                 </a>
                 {% endif %}
 
                 <a href="{% url 'book-list' %}">
-                    <button class="form-button cancel-button" type="button">
+                    <button class="form-button cancel-button" type="button" id="cancel-button">
                         Cancel
                     </button>
                 </a>

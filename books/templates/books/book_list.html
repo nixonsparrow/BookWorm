@@ -2,6 +2,8 @@
 {% load static %}
 {% block content %}
 
+    <div class="d-flex">
+
         <form autocomplete="off"
               class="ml-3 d-flex align-content flex-wrap"
               id="search" name="search"
@@ -13,19 +15,19 @@
             {% csrf_token %}
             <div class="search-form">
                 <label for="title">Title:</label><br>
-                <input type="text" name="title" id="title"
-                       placeholder="Search by title" value="{{ title_searched }}">
+                <input type="text" name="title" id="title" placeholder="Search by title"
+                       value="{{ title_searched }}" class="textinput textInput form-control">
             </div>
 
             <div class="search-form">
                 <label for="author">Author:</label><br>
-                <input type="text" name="author" id="author"
-                       placeholder="Search by author" value="{{ author_searched }}">
+                <input type="text" name="author" id="author" placeholder="Search by author"
+                        value="{{ author_searched }}" class="textinput textInput form-control">
             </div>
 
             <div class="search-form">
                 <label for="language">Language:</label><br>
-                <select id="language" name="language" style="height">
+                <select id="language" name="language" class="textinput textInput form-control">
                         <option name="no_language" value="">
                             ---------
                         </option>
@@ -39,20 +41,32 @@
 
             <fieldset class="d-flex">
                 <div class="search-form">
-                    <label for="language">Date From:</label><br>
-                    <input type="date" name="date-from" id="date-from"
-                           value="{{ date_from_searched }}">
+                    <label for="date-from">Date From:</label><br>
+                    <input type="date" name="date-from" id="date-from" min="1000-01-01" max="{{ today }}"
+                           value="{{ date_from_searched }}" class="textinput textInput form-control">
                 </div>
 
                 <div class="search-form">
-                    <label for="language">Date To:</label><br>
-                    <input type="date" name="date-to" id="date-to"
-                           value="{{ date_to_searched }}">
+                    <label for="date-to">Date To:</label><br>
+                    <input type="date" name="date-to" id="date-to" min="1000-01-01" max="{{ today }}"
+                           value="{{ date_to_searched }}" class="textinput textInput form-control">
                 </div>
             </fieldset>
 
             <input type="submit" class="hidden-button">
         </form>
+
+        <div>
+            <a href="{% url 'book-create' %}">
+                <img class="image-button mb-2" src="{% static 'images/new_book.png' %}">
+            </a><br>
+
+            <a href="{% url 'book-import-google' %}">
+                <img class="image-button" src="{% static 'images/new_book_google_api.png' %}">
+            </a>
+        </div>
+
+    </div>
 
         {% include 'books/search_results.html' %}
 
