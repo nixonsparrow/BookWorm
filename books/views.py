@@ -92,55 +92,62 @@ class BookImportFromGoogleView(TemplateView, FormMixin):
     form_class = GoogleAPIForm
 
     def post(self, request, *args, **kwargs):
-        query = self.get_form_kwargs()['data']['google_search']
-        google_request = requests.get('https://www.googleapis.com/books/v1/volumes?q=' + query)
+        in_author = self.get_form_kwargs()['data']['google_search_author']
+        in_title = self.get_form_kwargs()['data']['google_search_title']
+
+        query_link = 'https://www.googleapis.com/books/v1/volumes?q='
+        query_link += f'intitle:{in_title}+' if in_title else ''
+        query_link += f'inauthor:{in_author}+' if in_author else ''
+
+        print(query_link)
+        google_request = requests.get(query_link)
 
         books = []
         next_id = 1
+        print(google_request)
 
-        for google_book in google_request.json()['items']:
-            # get those values only if available - otherwise get None
-            title = google_book['volumeInfo']['title']
-            author = ', '.join(google_book['volumeInfo']['authors']) if 'authors' in google_book['volumeInfo'] else ''
-            pub_date = google_book['volumeInfo']['publishedDate'] if 'publishedDate' in google_book['volumeInfo'] else ''
-            page_count = int(google_book['volumeInfo']['pageCount']) if 'pageCount' in google_book['volumeInfo'] else None
+        if 'items' in google_request.json():
+            for google_book in google_request.json()['items']:
+                # get those values only if available - otherwise get None
+                title = google_book['volumeInfo']['title'] if 'title' in google_book['volumeInfo'] else ''
+                author = ', '.join(google_book['volumeInfo']['authors']) if 'authors' in google_book['volumeInfo'] else ''
+                pub_date = google_book['volumeInfo']['publishedDate'] if 'publishedDate' in google_book['volumeInfo'] else ''
+                page_count = int(google_book['volumeInfo']['pageCount']) if 'pageCount' in google_book['volumeInfo'] else None
 
-            if 'imageLinks' in google_book['volumeInfo']:
-                thumbnail = google_book['volumeInfo']['imageLinks']['thumbnail'] if 'thumbnail' in google_book['volumeInfo']['imageLinks'] else None
-            else:
-                thumbnail = None
+                if 'imageLinks' in google_book['volumeInfo']:
+                    thumbnail = google_book['volumeInfo']['imageLinks']['thumbnail'] if 'thumbnail' in google_book['volumeInfo']['imageLinks'] else None
+                else:
+                    thumbnail = None
 
-            isbn, isbn_10 = None, None
-            if 'industryIdentifiers' in google_book['volumeInfo']:
-                for identifier in google_book['volumeInfo']['industryIdentifiers']:
-                    if identifier['type'] == 'ISBN_13':
-                        isbn = identifier['identifier']
-                    elif identifier['type'] == 'ISBN_10':
-                        isbn_10 = identifier['identifier']
+                isbn, isbn_10 = None, None
+                if 'industryIdentifiers' in google_book['volumeInfo']:
+                    for identifier in google_book['volumeInfo']['industryIdentifiers']:
+                        if identifier['type'] == 'ISBN_13':
+                            isbn = identifier['identifier']
+                        elif identifier['type'] == 'ISBN_10':
+                            isbn_10 = identifier['identifier']
 
-            # Add dummy data to date without day and/or month to fit search queries
-            if 0 < len(pub_date):
-                while len(pub_date) < 10:
-                    pub_date += '-01'
+                # Add dummy data to date without day and/or month to fit search queries
+                if 0 < len(pub_date):
+                    while len(pub_date) < 10:
+                        pub_date += '-01'
 
-            language_tag = google_book['volumeInfo']['language']
+                language_tag = google_book['volumeInfo']['language']
 
-            books.append({
-                'id': next_id,
-                'title': title,
-                'author': author,
-                'isbn': isbn,
-                'isbn_10': isbn_10,
-                'pub_date': pub_date,
-                'cover_link': thumbnail,
-                'language': language_tag,
-                'get_full_language': get_language_name_from_tag(language_tag),
-                'page_count': page_count
-                })
+                books.append({
+                    'id': next_id,
+                    'title': title,
+                    'author': author,
+                    'isbn': isbn,
+                    'isbn_10': isbn_10,
+                    'pub_date': pub_date,
+                    'cover_link': thumbnail,
+                    'language': language_tag,
+                    'get_full_language': get_language_name_from_tag(language_tag),
+                    'page_count': page_count
+                    })
 
-            next_id += 1
-
-        print(books)
+                next_id += 1
 
         return render(request, self.template_name, {'google_search_results': books,
                                                     'form': self.get_form()})

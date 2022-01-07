@@ -33,4 +33,7 @@ class BookForm(forms.ModelForm):
 
 
 class GoogleAPIForm(forms.Form):
-    google_search = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Search in Google API'}))
+    google_search_author = forms.CharField(label='Author', max_length=100, required=False,
+                                           widget=forms.TextInput(attrs={'placeholder': 'Search by author'}))
+    google_search_title = forms.CharField(label='Title', max_length=100, required=False,
+                                          widget=forms.TextInput(attrs={'placeholder': 'Search by title'}))

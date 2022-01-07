@@ -34,13 +34,9 @@
     {% empty %}
         <div class="ml-5 mt-3 d-flex book-container">
             <div>
-                There is no book in the database with such search criteria.
+                There is no book in the Google database with such search criteria.
             </div>
         </div>
     {% endfor %}
-
-        <div id="google_search_results">
-            {{ google_search_results }}
-        </div>
 
 {% endblock content %}
