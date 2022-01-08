@@ -35,7 +35,7 @@ class Book(models.Model):
         return get_language_name_from_tag(self.language)
 
     def __str__(self):
-        return f'{self.title}{" (" + str(self.author) + ")" if self.author else ""}'
+        return f'\'{self.title}\'{" (" + str(self.author) + ")" if self.author else ""}'
 
 
 if __name__ == '__main__':

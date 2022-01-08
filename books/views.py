@@ -93,10 +93,15 @@ class BookUpdateView(SuccessMessageMixin, UpdateView):
         return reverse('book-list')
 
 
-class BookDeleteView(DeleteView):
+class BookDeleteView(SuccessMessageMixin, DeleteView):
     model = Book
     context_object_name = 'book'
     extra_context = {'extra_title': 'Delete book'}
+
+    def form_valid(self, form):
+        data_to_return = super().form_valid(form)
+        messages.warning(self.request, f'Book {self.get_form().data["book_data"]} has been removed successfully.')
+        return data_to_return
 
     def get_success_url(self):
         return reverse('book-list')
