@@ -92,19 +92,18 @@ class BookImportFromGoogleView(TemplateView, FormMixin):
     form_class = GoogleAPIForm
 
     def post(self, request, *args, **kwargs):
+        query = self.get_form_kwargs()['data']['google_search_query']
         in_author = self.get_form_kwargs()['data']['google_search_author']
         in_title = self.get_form_kwargs()['data']['google_search_title']
 
-        query_link = 'https://www.googleapis.com/books/v1/volumes?q='
+        query_link = f'https://www.googleapis.com/books/v1/volumes?q={query}+'
         query_link += f'intitle:{in_title}+' if in_title else ''
         query_link += f'inauthor:{in_author}+' if in_author else ''
 
-        print(query_link)
         google_request = requests.get(query_link)
 
         books = []
         next_id = 1
-        print(google_request)
 
         if 'items' in google_request.json():
             for google_book in google_request.json()['items']:
