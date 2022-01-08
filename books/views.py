@@ -53,7 +53,7 @@ class BooksListView(ListView, FormMixin):
             })
 
 
-class BookCreateView(CreateView):
+class BookCreateView(SuccessMessageMixin, CreateView):
     model = Book
     form_class = BookForm
     extra_context = {'extra_title': 'Add book'}

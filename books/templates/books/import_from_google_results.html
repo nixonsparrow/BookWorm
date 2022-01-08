@@ -18,7 +18,7 @@
             <input type="hidden" name="isbn" value="{{ book.isbn }}">
             <input type="hidden" name="isbn_10" value="{{ book.isbn_10 }}">
             <input type="hidden" name="page_count" value="{{ book.page_count }}">
-            <button type="submit" class="mt-2 form-button submit-button">Add to database</button>
+            <button type="submit" class="mt-2 form-button submit-button" id="submit_book_{{ book.id }}">Add to database</button>
         </form>
 
     {% empty %}

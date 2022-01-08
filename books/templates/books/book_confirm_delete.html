@@ -8,12 +8,12 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Delete book</legend>
-                <h2>Are you really sure you want to <b style="background-color: grey;">delete</b> this book from the database?</h2>
+                <h2 id="warning">Are you really sure you want to <b style="background-color: grey;">delete</b> this book from the database?</h2>
                 {% include 'books/book_segment.html' %}
             </fieldset>
 
             <div class="form-group">
-                <button class="form-button delete-button" type="submit">Yes, delete</button>
+                <button class="form-button delete-button" type="submit" id="confirm_delete">Yes, delete</button>
                 <a href="{% url 'book-update' book.id %}">
                     <input type="button" class="form-button cancel-button" value="Cancel">
                 </a>
