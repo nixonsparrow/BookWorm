@@ -1,10 +1,12 @@
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, reverse
+from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
+from django.utils import timezone
+from django.contrib import messages
 from books.models import Book, get_language_name_from_tag
 from books.forms import BookForm, GoogleAPIForm
-from django.utils import timezone
 import requests
 
 
@@ -55,6 +57,16 @@ class BookCreateView(CreateView):
     model = Book
     form_class = BookForm
     extra_context = {'extra_title': 'Add book'}
+    success_message = '%(title)s (%(author)s) has been successfully added to the database.'
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % dict(
+            cleaned_data,
+            title=self.object.title, author=self.object.author
+        )
+
+    def get_success_url(self):
+        return reverse('book-list')
 
     def get_initial(self):
         initial = super(BookCreateView, self).get_initial()
@@ -63,15 +75,19 @@ class BookCreateView(CreateView):
                 initial[field] = self.request.GET[field]
         return initial
 
-    def get_success_url(self):
-        return reverse('book-list')
 
-
-class BookUpdateView(UpdateView):
+class BookUpdateView(SuccessMessageMixin, UpdateView):
     model = Book
     form_class = BookForm
     extra_context = {'update_form': True,
                      'extra_title': 'Update book'}
+    success_message = '%(title)s (%(author)s) has been edited successfully.'
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % dict(
+            cleaned_data,
+            title=self.object.title, author=self.object.author
+        )
 
     def get_success_url(self):
         return reverse('book-list')
@@ -92,9 +108,9 @@ class BookImportFromGoogleView(TemplateView, FormMixin):
     form_class = GoogleAPIForm
 
     def post(self, request, *args, **kwargs):
-        query = self.get_form_kwargs()['data']['google_search_query']
-        in_author = self.get_form_kwargs()['data']['google_search_author']
-        in_title = self.get_form_kwargs()['data']['google_search_title']
+        query = self.get_form_kwargs()['data']['google_search_query'].strip()
+        in_author = self.get_form_kwargs()['data']['google_search_author'].strip()
+        in_title = self.get_form_kwargs()['data']['google_search_title'].strip()
 
         query_link = f'https://www.googleapis.com/books/v1/volumes?q={query}+'
         query_link += f'intitle:{in_title}+' if in_title else ''
@@ -108,7 +124,7 @@ class BookImportFromGoogleView(TemplateView, FormMixin):
         if 'items' in google_request.json():
             for google_book in google_request.json()['items']:
                 # get those values only if available - otherwise get None
-                title = google_book['volumeInfo']['title'] if 'title' in google_book['volumeInfo'] else ''
+                title = google_book['volumeInfo']['title'].strip() if 'title' in google_book['volumeInfo'] else ''
                 author = ', '.join(google_book['volumeInfo']['authors']) if 'authors' in google_book['volumeInfo'] else ''
                 pub_date = google_book['volumeInfo']['publishedDate'] if 'publishedDate' in google_book['volumeInfo'] else ''
                 page_count = int(google_book['volumeInfo']['pageCount']) if 'pageCount' in google_book['volumeInfo'] else None
