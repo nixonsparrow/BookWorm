@@ -1,13 +1,49 @@
-from django.http import HttpResponseNotFound
 from django.shortcuts import render, reverse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.utils import timezone
 from django.contrib import messages
+from rest_framework.response import Response
+from rest_framework import views
 from books.models import Book, get_language_name_from_tag
 from books.forms import BookForm, GoogleAPIForm
+from books.serializers import BookSerializer
 import requests
+
+
+class BookListAPI(views.APIView):
+    serializer_class = BookSerializer
+    http_method_names = ['get']
+
+    def get(self, request):
+        books = Book.objects.all()
+        filters = self.request.GET
+
+        if 'intitle' in filters:
+            if filters['intitle']:
+                books = books.filter(title__icontains=filters['intitle'])
+
+        if 'inauthor' in filters:
+            if filters['inauthor']:
+                books = books.filter(author__icontains=filters['inauthor'])
+
+        if 'date-from' in filters:
+            date_from = filters['date-from']
+            if len(date_from) > 3:
+                for book in books:
+                    if book.pub_date <= date_from:
+                        books = books.exclude(id=book.id)
+
+        if 'date-to' in filters:
+            date_to = filters['date-to']
+            if len(date_to) > 3:
+                for book in books:
+                    if date_to <= book.pub_date:
+                        books = books.exclude(id=book.id)
+
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data)
 
 
 class BooksListView(ListView, FormMixin):
@@ -171,3 +207,5 @@ class BookImportFromGoogleView(TemplateView, FormMixin):
 
         return render(request, self.template_name, {'google_search_results': books,
                                                     'form': self.get_form()})
+
+

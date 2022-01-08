@@ -2,7 +2,7 @@ from django.db import models
 
 
 def get_languages_from_languages_txt():
-    # returns list of tuples (TAG, LANGUAGE) i.e. ('pl', 'Polish')
+    # returns list of tuples (TAG, LANGUAGE) i.e. [('pl', 'Polish'), ('en', 'English')]
     return [tuple(row[2:-2].split("', '")) for row in list(map(str, open('books/static/languages.txt').read().split('\n')))]
 
 
@@ -35,8 +35,4 @@ class Book(models.Model):
         return get_language_name_from_tag(self.language)
 
     def __str__(self):
-        return f'\'{self.title}\'{" (" + str(self.author) + ")" if self.author else ""}'
-
-
-if __name__ == '__main__':
-    print(get_languages_from_languages_txt())
+        return f'\'{self.title}\'{(" (" + str(self.author) + ")") if self.author else ""}'

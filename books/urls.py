@@ -4,7 +4,8 @@ from books.views import (
     BookCreateView,
     BookUpdateView,
     BookDeleteView,
-    BookImportFromGoogleView
+    BookImportFromGoogleView,
+    BookListAPI
 )
 
 urlpatterns = [
@@ -18,4 +19,6 @@ urlpatterns = [
     path('book/import', BookImportFromGoogleView.as_view(), name='book-import-google'),
     path('book/import/search/', BookImportFromGoogleView.as_view(
         template_name='books/import_from_google_results.html'), name='google-search'),
+
+    path('api/', BookListAPI.as_view(), name='book-api')
 ]
