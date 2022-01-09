@@ -85,6 +85,10 @@ class BooksListView(ListView, FormMixin):
         # due to postgreSQL doesn't support simple gte/lte date filtering, here we have some custom filter
         if date_from or date_to:
             for book in books:
+                if not book.pub_date:
+                    books = books.exclude(id=book.id)
+                    continue
+
                 if date_from:
                     if book.pub_date < date_from:
                         books = books.exclude(id=book.id)
