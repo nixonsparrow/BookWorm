@@ -1,16 +1,5 @@
 from django.db import models
-
-
-def get_languages_from_languages_txt():
-    # returns list of tuples (TAG, LANGUAGE) i.e. [('pl', 'Polish'), ('en', 'English')]
-    return [tuple(row[2:-2].split("', '")) for row in list(map(str, open('books/static/languages.txt').read().split('\n')))]
-
-
-def get_language_name_from_tag(the_tag):
-    try:
-        return [name for tag, name in Book.LANGUAGES if tag == the_tag][0]
-    except IndexError:
-        return None
+from books.languages import get_languages_from_languages_txt, get_language_name_from_tag
 
 
 class Book(models.Model):

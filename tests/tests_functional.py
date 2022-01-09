@@ -20,9 +20,9 @@ def fill_form_with_some_data(browser):
     inputbox = browser.find_element(By.ID, 'id_language')
     inputbox.send_keys('en')
     inputbox = browser.find_element(By.ID, 'id_isbn')
-    inputbox.send_keys('1234567890123')
+    inputbox.send_keys('123456789012X')
     inputbox = browser.find_element(By.ID, 'id_isbn_10')
-    inputbox.send_keys('1234567890')
+    inputbox.send_keys('123456789X')
     inputbox = browser.find_element(By.ID, 'id_page_count')
     inputbox.send_keys(234)
 
@@ -86,7 +86,7 @@ class AddBookTestCase(LiveServerTestCase):
         WebDriverWait(self.browser, 5).until(cond.title_contains('Book search'))
 
         self.assertIsNotNone(Book.objects.get(title='Gandhi', author='Gandhi', language='en', page_count=234,
-                             isbn='1234567890123', isbn_10='1234567890',
+                             isbn='123456789012X', isbn_10='123456789X',
                              cover_link='https://images-na.ssl-images-amazon.com/images/I/81drR6CSp7S.jpg'))
 
 

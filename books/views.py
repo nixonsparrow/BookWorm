@@ -5,10 +5,12 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, T
 from django.utils import timezone
 from django.contrib import messages
 from rest_framework.response import Response
+from rest_framework.parsers import JSONParser
 from rest_framework import views
 from books.models import Book, get_language_name_from_tag
 from books.forms import BookForm, GoogleAPIForm
 from books.serializers import BookSerializer
+from books.languages import is_language_name, get_language_tag_from_name
 import requests
 
 
@@ -28,6 +30,14 @@ class BookListAPI(views.APIView):
             if filters['inauthor']:
                 books = books.filter(author__icontains=filters['inauthor'])
 
+        if 'language' in filters:
+            lang_tag = filters['language']
+            if lang_tag:
+                if is_language_name(lang_tag):
+                    lang_tag = get_language_tag_from_name(lang_tag)
+
+                books = books.filter(language=lang_tag)
+
         if 'date-from' in filters:
             date_from = filters['date-from']
             if len(date_from) > 3:
@@ -42,7 +52,7 @@ class BookListAPI(views.APIView):
                     if date_to <= book.pub_date:
                         books = books.exclude(id=book.id)
 
-        serializer = BookSerializer(books, many=True)
+        serializer = BookSerializer(books.order_by('title')[:10], many=True)
         return Response(serializer.data)
 
 
