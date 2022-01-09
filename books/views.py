@@ -68,13 +68,15 @@ class BooksListView(ListView, FormMixin):
     def post(self, request, *args, **kwargs):
         data = self.get_form_kwargs()['data']
 
+        books = Book.objects.all()
+
         title = data['title'].strip()
         author = data['author'].strip()
         language = data['language']
         date_from = data['date-from']
         date_to = data['date-to']
 
-        books = Book.objects.filter(
+        books = books.filter(
                 title__icontains=title,
                 author__icontains=author,
                 language__icontains=language
