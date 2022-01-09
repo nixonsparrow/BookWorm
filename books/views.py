@@ -5,7 +5,6 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, T
 from django.utils import timezone
 from django.contrib import messages
 from rest_framework.response import Response
-from rest_framework.parsers import JSONParser
 from rest_framework import views
 from books.models import Book, get_language_name_from_tag
 from books.forms import BookForm, GoogleAPIForm

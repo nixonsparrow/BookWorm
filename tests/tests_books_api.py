@@ -106,5 +106,3 @@ class CarsGETQueryFiltersTestCase(APITestCase):
         response = self.client.get(reverse('book-api') + f'?language=en&intitle={self.titles[1]}')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 1)
-
-
