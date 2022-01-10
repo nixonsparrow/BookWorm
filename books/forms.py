@@ -9,33 +9,39 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = '__all__'
 
+    def clean_title(self):
+        title = self.cleaned_data['title']
+        if title:
+            title = title[0].capitalize() + title[1:]
+        return title
+
     def clean_isbn(self):
-        data = self.cleaned_data['isbn']
-        if data:
-            if len(data) != 13:
+        isbn = self.cleaned_data['isbn']
+        if isbn:
+            if len(isbn) != 13:
                 raise ValidationError("ISBN number should contain exactly 13 digits. (Last character may be X)")
 
-            elif len(re.findall(r'[0-9]+', data[:-1])[0]) != 12:
+            elif len(re.findall(r'[0-9]+', isbn[:-1])[0]) != 12:
                 raise ValidationError("You may only use digits for ISBN number. (Last character may be X)")
 
-            if data[-1].lower() not in '0123456789x':
+            if isbn[-1].lower() not in '0123456789x':
                 raise ValidationError("Last character has to be either a digit or 'X'.")
 
-        return data
+        return isbn
 
     def clean_isbn_10(self):
-        data = self.cleaned_data['isbn_10']
-        if data:
-            if len(data) != 10:
+        isbn_10 = self.cleaned_data['isbn_10']
+        if isbn_10:
+            if len(isbn_10) != 10:
                 raise ValidationError("ISBN-10 number should contain exactly 10 digits. (Last character may be X)")
 
-            elif len(re.findall(r'[0-9]+', data[:-1])[0]) != 9:
+            elif len(re.findall(r'[0-9]+', isbn_10[:-1])[0]) != 9:
                 raise ValidationError("You may only use digits for ISBN-10 number. (Last character may be X)")
 
-            if data[-1].lower() not in '0123456789x':
+            if isbn_10[-1].lower() not in '0123456789x':
                 raise ValidationError("Last character has to be either a digit or 'X'.")
 
-        return data
+        return isbn_10
 
 
 class GoogleAPIForm(forms.Form):

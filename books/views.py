@@ -41,14 +41,20 @@ class BookListAPI(views.APIView):
             date_from = filters['date-from']
             if len(date_from) > 3:
                 for book in books:
-                    if book.pub_date <= date_from:
+                    if book.pub_date:
+                        if book.pub_date < date_from:
+                            books = books.exclude(id=book.id)
+                    else:
                         books = books.exclude(id=book.id)
 
         if 'date-to' in filters:
             date_to = filters['date-to']
             if len(date_to) > 3:
                 for book in books:
-                    if date_to <= book.pub_date:
+                    if book.pub_date:
+                        if date_to < book.pub_date:
+                            books = books.exclude(id=book.id)
+                    else:
                         books = books.exclude(id=book.id)
 
         serializer = BookSerializer(books.order_by('title')[:10], many=True)
@@ -82,7 +88,7 @@ class BooksListView(ListView, FormMixin):
                 language__icontains=language
             )
 
-        # due to postgreSQL doesn't support simple gte/lte date filtering, here we have some custom filter
+        # dates custom filter
         if date_from or date_to:
             for book in books:
                 if not book.pub_date:

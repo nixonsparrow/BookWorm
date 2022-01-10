@@ -3,7 +3,7 @@ from django.urls import reverse
 from books.models import Book
 
 
-class CarsGETNoFiltersTestCase(APITestCase):
+class BooksGETNoFiltersTestCase(APITestCase):
     def test_get_book_empty_list(self):
         response = self.client.get(reverse('book-api'))
         self.assertEqual(response.status_code, 200)
@@ -31,10 +31,10 @@ class CarsGETNoFiltersTestCase(APITestCase):
         self.assertIsNotNone(Book.objects.filter(title='Test_99').first())
 
 
-class CarsGETQueryFiltersTestCase(APITestCase):
+class BooksGETQueryFiltersTestCase(APITestCase):
     authors = ['Tolkien', 'Sapkowski', 'Żeromski', 'Tokarczuk', 'Van Whitespace']
     titles = ['The Hobbit', 'Alice in the Wonderland']
-    pub_dates = ['2020-12-31', '2020-01-01', '1987-06-05', '1987-12-12', '2022-01-10']
+    pub_dates = ['2020-12-31', '1987-06-05', '2020-01-01', '1987-12-12', '2022-01-10']
 
     def setUp(self):
         for nr in range(5):
@@ -106,3 +106,18 @@ class CarsGETQueryFiltersTestCase(APITestCase):
         response = self.client.get(reverse('book-api') + f'?language=en&intitle={self.titles[1]}')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 1)
+
+    def test_filtering_by_date_from(self):
+        response = self.client.get(reverse('book-api') + f'?date-from=2000-01-01')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 4)
+
+    def test_filtering_by_date_to(self):
+        response = self.client.get(reverse('book-api') + f'?date-to=2000-01-01')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 3)
+
+    def test_filtering_by_date_from_and_date_to(self):
+        response = self.client.get(reverse('book-api') + f'?date-from=2000-01-01&date-to=2020-12-31')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 3)
