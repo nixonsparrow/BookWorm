@@ -61,18 +61,17 @@ class BookListAPI(views.APIView):
         return Response(serializer.data)
 
 
-class BooksListView(ListView, FormMixin):
+class BooksListView(ListView):
 
     model = Book
     context_object_name = 'books'
-    form_class = BookForm
     template_name = 'books/book_list.html'
     extra_context = {'languages': Book.LANGUAGES,
                      'extra_title': 'Book search',
                      'today': timezone.now().strftime('%Y-%m-%d')}
 
     def post(self, request, *args, **kwargs):
-        data = self.get_form_kwargs()['data']
+        data = request.POST
 
         books = Book.objects.all()
 
@@ -230,5 +229,3 @@ class BookImportFromGoogleView(TemplateView, FormMixin):
 
         return render(request, self.template_name, {'google_search_results': books,
                                                     'form': self.get_form()})
-
-

@@ -89,4 +89,4 @@ For language tags the applications uses you might go to:
 ~~~~
 $ /books/static/languages.txt
 ~~~~
-but they are common language tags with 'xx' as if missing one.
+but basically they are common language tags with 'xx' as if missing one.
