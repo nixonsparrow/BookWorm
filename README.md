@@ -1,12 +1,12 @@
-#Book Worm
+# Book Worm
 Manage your books with **Django**, **Heroku**, **Django REST Framework**,
 **PostgreSQL**, **htmx** and **Bootstrap**.
 
-##Heroku hosting
-Heroku files are located in the main app folder as ``Procfile`` 
+## Heroku hosting
+Heroku's files are located in the main app folder as ``Procfile`` 
 and specifically for Windows ``Procfile.windows``.
 
-##Tests
+## Tests
 Unittests are located in a books' app folder:
 ~~~~
 $ books/tests.py
@@ -17,18 +17,18 @@ Selenium tests are located in  folder:
 $ tests/tests_*.py
 ~~~~
 
-##Details
+## Details
 Settings folder is not named in a Django's default way.
 In Book Worm you can find main files like ``settings.py`` at ``/core/`` instead of ``/BookWorm/``.
 
-#Managing book library
-##Add a book with form
+# Managing book library
+## Add a book with form
 Go to url (by main site button or directly):
 ~~~~
 /book/new
 ~~~~
 Fill the form with wanted values and click 'Add' button.
-##Import a book from Google API
+## Import a book from Google API
 Go to url (by main site button or directly):
 ~~~~
 /book/import
@@ -40,7 +40,7 @@ remember that you can edit in the next step.
 Click 'Add to database' button which takes you to the book form.
 You can edit the form with wanted values and click 'Add' button.
 
-##Book search
+## Book search
 To search for a book that is already in your database,
 just enter the main site url:
 ~~~~
@@ -53,7 +53,7 @@ Language choice ``----------`` resets language filter.
 Dates ``YYYY-MM-DD`` have to be entered fully to be implemented as a filters.
 It's not needed to input both of them to work.
 
-##Book update / delete
+## Book update / delete
 To update a book you can simply click on it in search results at the main page.
 You can also get url if you know the id of the book you want to edit:
 ~~~~
@@ -61,7 +61,7 @@ You can also get url if you know the id of the book you want to edit:
 ~~~~
 The update form is exactly the same as the book creation one.
 
-##Query string search
+## Query string search
 You can build API to get your books. Just go the url:
 ~~~~
 /api/
