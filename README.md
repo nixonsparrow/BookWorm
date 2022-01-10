@@ -75,10 +75,15 @@ Filters:
 ~~~~
 intitle, inauthor, language, date-from, date-to
 ~~~~
+Despite the fact the application returns data in json, you can
+also include query string ``format=json`` to get clean json in
+a browser if needed.
+
 Usage examples:
 ~~~~
-/api/?intitle=hobbit&inauthor=tolkien
-/api/?inauthor=tolkien&date-from=2020-01-01&language=en
+/api/?intitle=hobbit&inauthor=tolkien&date-to=2000-08-12
+/api/?inauthor=tolkien&date-from=2020&language=en
+/api/?format=json&date-from=2020&language=en
 ~~~~
 For language tags the applications uses you might go to:
 ~~~~
