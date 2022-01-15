@@ -115,19 +115,15 @@ class BookCreateView(SuccessMessageMixin, CreateView):
     model = Book
     form_class = BookForm
     extra_context = {'extra_title': 'Add book'}
-    success_message = '%(title)s (%(author)s) has been successfully added to the database.'
 
     def get_success_message(self, cleaned_data):
-        return self.success_message % dict(
-            cleaned_data,
-            title=self.object.title, author=self.object.author
-        )
+        return f'{self.object} has been successfully added to the database.'
 
     def get_success_url(self):
         return reverse('book-list')
 
     def get_initial(self):
-        initial = super(BookCreateView, self).get_initial()
+        initial = super().get_initial()
         for field in self.request.GET:
             if self.request.GET[field] != 'None':
                 initial[field] = self.request.GET[field]
@@ -139,13 +135,9 @@ class BookUpdateView(SuccessMessageMixin, UpdateView):
     form_class = BookForm
     extra_context = {'update_form': True,
                      'extra_title': 'Update book'}
-    success_message = '%(title)s (%(author)s) has been edited successfully.'
 
     def get_success_message(self, cleaned_data):
-        return self.success_message % dict(
-            cleaned_data,
-            title=self.object.title, author=self.object.author
-        )
+        return f'{self.object} has been edited successfully.'
 
     def get_success_url(self):
         return reverse('book-list')

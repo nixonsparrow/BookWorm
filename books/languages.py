@@ -15,15 +15,11 @@ def get_language_names(lowercase=False):
 
 
 def is_language_tag(tag):
-    if tag in get_language_tags():
-        return True
-    return False
+    return tag in get_language_tags()
 
 
 def is_language_name(tag):
-    if tag.lower() in get_language_names(lowercase=True):
-        return True
-    return False
+    return tag.lower() in get_language_names(lowercase=True)
 
 
 def get_language_name_from_tag(the_tag):
