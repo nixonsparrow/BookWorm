@@ -12,9 +12,13 @@ Unittests are located in a books' app folder:
 $ books/tests.py
 $ tests/api/tests_books_api.py
 ~~~~
-Selenium tests are located in  folder:
+Selenium tests are located in folder:
 ~~~~
 $ tests/tests_*.py
+~~~~
+To Run PEP8 test:
+~~~~
+$ python pep8_test.py
 ~~~~
 
 ## Details

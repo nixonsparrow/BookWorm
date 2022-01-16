@@ -110,4 +110,3 @@ class TemplatesUsedTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         self.assertTemplateNotUsed(response, 'books/base.html')
-
