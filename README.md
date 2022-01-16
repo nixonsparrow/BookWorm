@@ -16,10 +16,17 @@ Selenium tests are located in folder:
 ~~~~
 $ tests/tests_*.py
 ~~~~
-To Run PEP8 test:
+To run unittest and selenium tests:
+~~~~
+$ python manage.py test
+~~~~
+To run PEP8 test:
 ~~~~
 $ python pep8_test.py
 ~~~~
+As it is generally not recommended, you can change custom PEP8 rules
+in file ``setup.cfg``. The only difference from default is longer
+line limit (from 79 chars to 160 chars).
 
 ## Details
 Settings folder is not named in a Django's default way.
