@@ -1,3 +1,7 @@
+name: Test PEP8
+
+on: [push, pull_request,workflow_dispatch]
+
 jobs:
   test:
     runs-on: ubuntu-20.04
