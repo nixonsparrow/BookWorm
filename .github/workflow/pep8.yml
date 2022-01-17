@@ -1,0 +1,10 @@
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run PEP8
+        uses: quentinguidee/pep8-action@v1
+        with:
+          arguments: '--max-line-length=160'

@@ -24,7 +24,7 @@ To run PEP8 test:
 ~~~~
 $ python pep8_test.py
 ~~~~
-As it is generally not recommended, you can change custom PEP8 rules
+While it is generally not recommended, you can change custom PEP8 rules
 in file ``setup.cfg``. The only difference from default is longer
 line limit (from 79 chars to 160 chars).
 
