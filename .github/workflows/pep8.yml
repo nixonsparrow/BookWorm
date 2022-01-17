@@ -1,0 +1,14 @@
+name: Test PEP8
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run PEP8
+        uses: quentinguidee/pep8-action@v1
+        with:
+          arguments: '--max-line-length=160'
