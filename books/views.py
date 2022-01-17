@@ -222,3 +222,5 @@ class BookImportFromGoogleView(TemplateView, FormMixin):
         return render(request, self.template_name, {'google_search_results': books,
                                                     'form': self.get_form()})
 
+tuple_with_extra_spaces = (2, 1, )
+
