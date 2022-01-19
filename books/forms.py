@@ -12,7 +12,7 @@ class BookForm(forms.ModelForm):
     def clean_title(self):
         title = self.cleaned_data['title']
         if title:
-            title = title[0].capitalize() + title[1:]
+            title = title.capitalize()
         return title
 
     @classmethod
