@@ -44,11 +44,11 @@ class ImportBookTestCase(LiveServerTestCase):
         WebDriverWait(self.browser, 5).until(cond.title_contains('Import book'))
 
         inputbox = self.browser.find_element(By.ID, 'id_google_search_query')
-        inputbox.send_keys('Gandhi')
+        inputbox.send_keys('Harry Potter')
 
         WebDriverWait(self.browser, 5).until(cond.presence_of_element_located((By.ID, 'book_1')))
         first_result = self.browser.find_element(By.ID, 'book_1')
-        self.assertIn('Gandhi', first_result.text)
+        self.assertIn('harry potter'.lower(), first_result.text.lower())
 
 
 class AddImportedBookTestCase(LiveServerTestCase):
