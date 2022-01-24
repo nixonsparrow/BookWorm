@@ -82,10 +82,10 @@ class BooksListView(ListView):
         date_to = data['date-to']
 
         books = books.filter(
-                title__icontains=title,
-                author__icontains=author,
-                language__icontains=language
-            )
+            title__icontains=title,
+            author__icontains=author,
+            language__icontains=language
+        )
 
         # dates custom filter
         if date_from or date_to:
@@ -101,14 +101,16 @@ class BooksListView(ListView):
                     if book.pub_date > date_to:
                         books = books.exclude(id=book.id)
 
-        return render(request, self.template_name, context={
-            'books': books,
-            'title_searched': title,
-            'author_searched': author,
-            'language_searched': language,
-            'date_from_searched': date_from,
-            'date_to_searched': date_to
-            })
+        return render(request, self.template_name,
+                      context={
+                          'books': books,
+                          'title_searched': title,
+                          'author_searched': author,
+                          'language_searched': language,
+                          'date_from_searched': date_from,
+                          'date_to_searched': date_to
+                      }
+                      )
 
 
 class BookCreateView(SuccessMessageMixin, CreateView):
@@ -204,18 +206,20 @@ class BookImportFromGoogleView(TemplateView, FormMixin):
 
                 language_tag = google_book['volumeInfo']['language']
 
-                books.append({
-                    'id': next_id,
-                    'title': title,
-                    'author': author,
-                    'isbn': isbn,
-                    'isbn_10': isbn_10,
-                    'pub_date': pub_date,
-                    'cover_link': thumbnail,
-                    'language': language_tag,
-                    'get_full_language': get_language_name_from_tag(language_tag),
-                    'page_count': page_count
-                    })
+                books.append(
+                    {
+                        'id': next_id,
+                        'title': title,
+                        'author': author,
+                        'isbn': isbn,
+                        'isbn_10': isbn_10,
+                        'pub_date': pub_date,
+                        'cover_link': thumbnail,
+                        'language': language_tag,
+                        'get_full_language': get_language_name_from_tag(language_tag),
+                        'page_count': page_count
+                    }
+                )
 
                 next_id += 1
 
