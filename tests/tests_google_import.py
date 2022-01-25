@@ -52,7 +52,7 @@ class ImportBookTestCase(LiveServerTestCase):
         for i in range(1, 11):
             first_result = self.browser.find_element(By.ID, f'book_{i}')
             if 'gandhi' not in first_result.text.lower():
-                print('WARNING: Gandhi not in:\n', first_result.text, '\n')
+                print('SOFT WARNING: Gandhi not in:\n', first_result.text, '\n')
 
 
 class AddImportedBookTestCase(LiveServerTestCase):
