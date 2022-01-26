@@ -20,6 +20,12 @@ To run unittest and selenium tests:
 ~~~~
 $ python manage.py test
 ~~~~
+To run specific tests you can narrow them down to file/class/method
+~~~~
+$ python manage.py test tests.tests_functional
+$ python manage.py test tests.tests_functional.BookListTestCase
+$ python manage.py test tests.tests_functional.BookListTestCase.test_if_title_is_book_worm
+~~~~
 To run PEP8 test:
 ~~~~
 $ python pep8_test.py
