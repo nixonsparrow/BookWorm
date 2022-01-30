@@ -15,15 +15,13 @@ import django_heroku
 from dotenv import load_dotenv
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Store sensitive data as an environment variables, for development there are some default variables in env file
 if not os.getenv('SECRET_KEY'):
     load_dotenv('/etc/books_config.env')
 
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = (os.getenv('DEBUG') == 'True')
+DEBUG = os.getenv('DEBUG') == 'True'
 
 # To add more hosts separate then with comma in environment variable
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
